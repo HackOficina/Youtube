@@ -1,0 +1,64 @@
+#Comandos para criação de Server - LAMP - Ubuntu 20.04
+
+sudo adduser admin
+
+sudo visudo
+
+sudo nano /etc/ssh/sshd_config
+
+service ssh restart
+
+sudo apt-get update
+
+sudo apt-get install apache2
+
+sudo apt-get install php libapache2-mod-php php-mail php-mysql
+
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+
+#<VirtualHost *:80>
+#ServerName seudominio.com
+#ServerAlias seudominio.com *.seudominio.com
+#DocumentRoot /var/www/seudominio
+#</VirtualHost>
+
+sudo service apache2 restart
+
+sudo chmod 777 /var/www
+
+sudo apt-get install mysql-server
+sudo mysql_secure_installation
+
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+sudo mysql -uroot -psenha
+
+#CREATE USER root IDENTIFIED WITH mysql_native_password BY 'suasenha';
+#GRANT ALL ON *.* TO 'root'@'%';
+#quit;
+
+#EMAIL
+#Criar registro MX
+
+sudo apt-get install postfix
+
+sudo nano /etc/postfix/virtual
+
+sudo nano /etc/postfix/main.cf
+
+#virtual_maps = hash:/etc/postfix/virtual
+#virtual_alias_domains = seudominio.com
+
+sudo postmap /etc/postfix/virtual
+sudo service postfix restart
+
+#Digitalocean bloqueia a porta 25 !!!
+#abrir ticket para desbloquear a porta 25
+#https://cloud.digitalocean.com/support
+
+#Comandos adicionais
+top #Tasks
+free #Apenas Memória
+df - k #Espaço em Disco
+sysctl -w vm.drop_caches=3 #Limpar cache
+/var/log/mail.log #Logs de Email
